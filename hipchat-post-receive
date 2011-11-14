@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Configuration
+HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
+HIPCHAT_ROOM="HipChat room name"
+HIPCHAT_TOKEN="1234567890"
+HIPCHAT_FROM="GIT"
+
+# Read variables passed on by GIT
+read OLDREV NEWREV REFNAME
+
+# Find out basic variables
+GIT_EXEC=`which git`
+REPO=`basename $PWD`
+USER=`$GIT_EXEC log -1 $NEWREV --format="%an"`
+BRANCH=${REFNAME#refs/heads/}
+
+# Construct message
+TITLE="$USER pushed to branch $BRANCH of $REPO"
+LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
+MSG="$TITLE\n$LOG"
+
+# Send it to HipChat
+echo -e "$MSG" | $HIPCHAT_SCRIPT -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM"
