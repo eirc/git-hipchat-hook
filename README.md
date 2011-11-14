@@ -14,7 +14,7 @@ Clone [hipchat-cli](https://github.com/hipchat/hipchat-cli) somewhere in your GI
 git clone git://github.com/hipchat/hipchat-cli.git
 ```
 
-Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one:
+Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one and make sure its executable:
 
 ```sh
 #!/bin/sh
