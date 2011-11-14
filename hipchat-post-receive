@@ -2,6 +2,7 @@
 
 # Configuration
 GITWEB="gitweb.example.com"
+REDMINE="redmine.example.com"
 
 HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
 HIPCHAT_ROOM="HipChat room name"
@@ -47,6 +48,10 @@ else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$GITWEB/?p=$REPO;a=commit;h=%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
+  fi
+  if [ -n "$REDMINE" ]
+  then
+    LOG=`echo $LOG | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
   fi
   MSG="$TITLE\n$LOG"
 fi
