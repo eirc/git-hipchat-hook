@@ -1,0 +1,37 @@
+A simple GIT `post-receive` hook script for notifying a room in HipChat.
+
+# Installation
+
+Clone this repository somewhere in your GIT repository host server.
+
+```sh
+git clone git://github.com/eirc/git-hipchat-hook.git
+```
+
+Clone [hipchat-cli](https://github.com/hipchat/hipchat-cli) somewhere in your GIT repository host server.
+
+```sh
+git clone git://github.com/hipchat/hipchat-cli.git
+```
+
+Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one:
+
+```sh
+#!/bin/sh
+
+HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
+HIPCHAT_ROOM="HipChat room name"
+HIPCHAT_TOKEN="1234567890"
+HIPCHAT_FROM="GIT"
+
+. /path/to/hipchat-post-receive
+```
+
+And you're done!
+
+For GitWeb and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
+
+```sh
+GITWEB="gitweb.example.com"
+REDMINE="redmine.example.com"
+```
