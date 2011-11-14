@@ -1,14 +1,5 @@
 #!/bin/sh
 
-# Configuration
-GITWEB="gitweb.example.com"
-REDMINE="redmine.example.com"
-
-HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
-HIPCHAT_ROOM="HipChat room name"
-HIPCHAT_TOKEN="1234567890"
-HIPCHAT_FROM="GIT"
-
 # Read variables passed on by GIT
 read OLDREV NEWREV REFNAME
 
