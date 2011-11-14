@@ -6,6 +6,7 @@ read OLDREV NEWREV REFNAME
 # Find out basic variables
 GIT_EXEC=`which git`
 REPO=`basename $PWD`
+HIPCHAT_COLOR="yellow"
 
 # User is commiter of either last or first commit
 NULLREV="0000000000000000000000000000000000000000"
@@ -29,9 +30,11 @@ fi
 if [ "$OLDREV" == "$NULLREV" ]
 then
   MSG="$USER_LINK created branch $BRANCH_LINK of $REPO_LINK"
+  HIPCHAT_COLOR="green"
 elif [ "$NEWREV" == "$NULLREV" ]
 then
   MSG="$USER_LINK deleted branch $BRANCH of $REPO_LINK"
+  HIPCHAT_COLOR="red"
 else
   TITLE="$USER_LINK pushed to branch $BRANCH_LINK of $REPO_LINK"
   if [ -n "$GITWEB" ]
@@ -48,4 +51,4 @@ else
 fi
 
 # Send it to HipChat
-echo -e "$MSG" | $HIPCHAT_SCRIPT -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM"
+echo -e "$MSG" | $HIPCHAT_SCRIPT -c "$HIPCHAT_COLOR" -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM"
