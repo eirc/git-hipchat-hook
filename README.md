@@ -8,7 +8,7 @@ Clone this repository somewhere in your GIT repository host server.
 git clone git://github.com/eirc/git-hipchat-hook.git
 ```
 
-Clone [hipchat-cli](https://github.com/hipchat/hipchat-cli) somewhere in your GIT repository host server.
+Clone my [hipchat-cli](https://github.com/eirc/hipchat-cli) fork somewhere in your GIT repository host server _(my fork is required because it provides color support.)_.
 
 ```sh
 git clone git://github.com/hipchat/hipchat-cli.git
