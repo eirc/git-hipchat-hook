@@ -12,13 +12,25 @@ read OLDREV NEWREV REFNAME
 # Find out basic variables
 GIT_EXEC=`which git`
 REPO=`basename $PWD`
-USER=`$GIT_EXEC log -1 $NEWREV --format="%an"`
+
+# User is commiter of either last or first commit
+NULLREV="0000000000000000000000000000000000000000"
+[ "$NEWREV" == "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
+USER=`$GIT_EXEC log -1 $USER_REV --format="%an"`
 BRANCH=${REFNAME#refs/heads/}
 
 # Construct message
-TITLE="$USER pushed to branch $BRANCH of $REPO"
-LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
-MSG="$TITLE\n$LOG"
+if [ "$OLDREV" == "$NULLREV" ]
+then
+  MSG="$USER created branch $BRANCH of $REPO"
+elif [ "$NEWREV" == "$NULLREV" ]
+then
+  MSG="$USER deleted branch $BRANCH of $REPO"
+else
+  TITLE="$USER pushed to branch $BRANCH of $REPO"
+  LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
+  MSG="$TITLE\n$LOG"
+fi
 
 # Send it to HipChat
 echo -e "$MSG" | $HIPCHAT_SCRIPT -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM"
