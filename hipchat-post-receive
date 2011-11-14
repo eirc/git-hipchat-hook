@@ -1,6 +1,8 @@
 #!/bin/sh
 
 # Configuration
+GITWEB="gitweb.example.com"
+
 HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
 HIPCHAT_ROOM="HipChat room name"
 HIPCHAT_TOKEN="1234567890"
@@ -19,15 +21,27 @@ NULLREV="0000000000000000000000000000000000000000"
 USER=`$GIT_EXEC log -1 $USER_REV --format="%an"`
 BRANCH=${REFNAME#refs/heads/}
 
+# Setup gitweb links
+if [ -n "$GITWEB" ]
+then
+  USER_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=search;s=$USER;st=author\">$USER</a>"
+  BRANCH_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=shortlog;h=$REFNAME\">$BRANCH</a>"
+  REPO_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=summary\">$REPO</a>"
+else
+  USER_LINK=$USER
+  BRANCH_LINK=$BRANCH
+  REPO_LINK=$REPO
+fi
+
 # Construct message
 if [ "$OLDREV" == "$NULLREV" ]
 then
-  MSG="$USER created branch $BRANCH of $REPO"
+  MSG="$USER_LINK created branch $BRANCH_LINK of $REPO_LINK"
 elif [ "$NEWREV" == "$NULLREV" ]
 then
-  MSG="$USER deleted branch $BRANCH of $REPO"
+  MSG="$USER_LINK deleted branch $BRANCH of $REPO_LINK"
 else
-  TITLE="$USER pushed to branch $BRANCH of $REPO"
+  TITLE="$USER_LINK pushed to branch $BRANCH_LINK of $REPO_LINK"
   LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   MSG="$TITLE\n$LOG"
 fi
