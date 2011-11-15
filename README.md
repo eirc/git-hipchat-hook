@@ -37,3 +37,7 @@ For GitWeb and Redmine integrations (optional) add the following configuration t
 GITWEB="gitweb.example.com"
 REDMINE="redmine.example.com"
 ```
+
+## Contributions
+
+* [graffic](http://github.com/graffic) for the sed RegEx to link to Redmine issues.
