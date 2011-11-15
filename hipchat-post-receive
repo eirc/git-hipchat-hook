@@ -45,7 +45,7 @@ else
   fi
   if [ -n "$REDMINE" ]
   then
-    LOG=`echo $LOG | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
+    LOG=`echo -e "$LOG" | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
   fi
   MSG="$TITLE\n$LOG"
 fi
