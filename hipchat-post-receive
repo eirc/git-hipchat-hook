@@ -39,7 +39,7 @@ else
   TITLE="$USER_LINK pushed to branch $BRANCH_LINK of $REPO_LINK"
   if [ -n "$GITWEB" ]
   then
-    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$GITWEB/?p=$REPO;a=commit;h=%H\">%h</a>)"`
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$GITWEB/?p=$REPO;a=commitdiff;h=%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
