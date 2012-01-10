@@ -20,6 +20,11 @@ then
   USER_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=search;s=$USER;st=author\">$USER</a>"
   BRANCH_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=shortlog;h=$REFNAME\">$BRANCH</a>"
   REPO_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=summary\">$REPO</a>"
+elif [ -n "$CGIT" ]
+then
+  USER_LINK=$USER
+  BRANCH_LINK="<a href=\"http://$CGIT/$REPO/log/?h=$REFNAME\">$BRANCH</a>"
+  REPO_LINK="<a href=\"http://$CGIT/$REPO/\">$REPO</a>"
 else
   USER_LINK=$USER
   BRANCH_LINK=$BRANCH
@@ -40,6 +45,9 @@ else
   if [ -n "$GITWEB" ]
   then
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$GITWEB/?p=$REPO;a=commitdiff;h=%H\">%h</a>)"`
+  elif [ -n "$CGIT" ]
+  then
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$CGIT/$REPO/commit/?id=%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
