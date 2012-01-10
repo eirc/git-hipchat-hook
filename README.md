@@ -34,6 +34,7 @@ And you're done!
 For GitWeb and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
 
 ```sh
+CGIT="git.example.com/cgit"
 GITWEB="gitweb.example.com"
 REDMINE="redmine.example.com"
 ```
