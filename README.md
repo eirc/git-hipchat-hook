@@ -31,7 +31,9 @@ HIPCHAT_FROM="GIT"
 
 And you're done!
 
-For GitWeb and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
+For GitWeb, CGit and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
+
+Note that CGit and GitWeb are mutually exclusive.
 
 ```sh
 CGIT="git.example.com/cgit"
