@@ -44,3 +44,4 @@ REDMINE="redmine.example.com"
 ## Contributions
 
 * [graffic](http://github.com/graffic) for the sed RegEx to link to Redmine issues.
+* [jparise](http://github.com/jparise) for CGit integration.
