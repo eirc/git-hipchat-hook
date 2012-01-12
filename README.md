@@ -33,15 +33,16 @@ And you're done!
 
 For GitWeb, CGit and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
 
-Note that CGit and GitWeb are mutually exclusive.
+Note that CGit and GitWeb, and Redmine and JIRA, are mutually exclusive.
 
 ```sh
 CGIT="git.example.com/cgit"
 GITWEB="gitweb.example.com"
+JIRA="jira.example.com"
 REDMINE="redmine.example.com"
 ```
 
 ## Contributions
 
 * [graffic](http://github.com/graffic) for the sed RegEx to link to Redmine issues.
-* [jparise](http://github.com/jparise) for CGit integration.
+* [jparise](http://github.com/jparise) for CGit and JIRA integrations.
