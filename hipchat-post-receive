@@ -10,7 +10,7 @@ HIPCHAT_COLOR="yellow"
 
 # User is commiter of either last or first commit
 NULLREV="0000000000000000000000000000000000000000"
-[ "$NEWREV" == "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
+[ "$NEWREV" = "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
 USER=`$GIT_EXEC log -1 $USER_REV --format="%an"`
 BRANCH=${REFNAME#refs/heads/}
 
@@ -32,11 +32,11 @@ else
 fi
 
 # Construct message
-if [ "$OLDREV" == "$NULLREV" ]
+if [ "$OLDREV" = "$NULLREV" ]
 then
   MSG="$USER_LINK created branch $BRANCH_LINK of $REPO_LINK"
   HIPCHAT_COLOR="green"
-elif [ "$NEWREV" == "$NULLREV" ]
+elif [ "$NEWREV" = "$NULLREV" ]
 then
   MSG="$USER_LINK deleted branch $BRANCH of $REPO_LINK"
   HIPCHAT_COLOR="red"
