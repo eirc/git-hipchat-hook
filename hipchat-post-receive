@@ -62,4 +62,4 @@ else
 fi
 
 # Send it to HipChat
-echo -e "$MSG" | $HIPCHAT_SCRIPT -c "$HIPCHAT_COLOR" -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM_ID" -f "$HIPCHAT_FROM" > /dev/null
+echo -e "$MSG" | $HIPCHAT_SCRIPT -c "$HIPCHAT_COLOR" -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM" > /dev/null

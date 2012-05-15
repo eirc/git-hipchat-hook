@@ -20,13 +20,13 @@ git clone git://github.com/hipchat/hipchat-cli.git
 
 Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one and make sure its executable.
 
-You can lookup the HipChat room id from the [rooms/list](https://www.hipchat.com/docs/api/method/rooms/list) API
+You can lookup the HipChat room id from the [rooms/list](https://www.hipchat.com/docs/api/method/rooms/list) API or use the HipChat room name (remember to urlencode it)
 
 ```sh
 #!/bin/sh
 
 HIPCHAT_SCRIPT="/home/git/hipchat-cli/hipchat_room_message"
-HIPCHAT_ROOM_ID="HipChat room id"
+HIPCHAT_ROOM="HipChat room name or room_id"
 HIPCHAT_TOKEN="1234567890"
 HIPCHAT_FROM="GIT"
 
