@@ -21,7 +21,7 @@ Go to the `hooks` directory in a bare repository you want to setup the hooks for
 ```sh
 #!/bin/sh
 
-HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
+HIPCHAT_SCRIPT="/path/to/hipchat_room_message"
 HIPCHAT_ROOM="HipChat room name"
 HIPCHAT_TOKEN="1234567890"
 HIPCHAT_FROM="GIT"
