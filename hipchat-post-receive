@@ -31,6 +31,15 @@ else
   REPO_LINK=$REPO
 fi
 
+# Construct gitorious links
+if [ -n "$GITORIOUS" ]
+then
+  REPO_NO_GIT=`echo -e $REPO|sed "s/.git//g"`
+  USER_LINK="<a href=\"https://$GITORIOUS/~$USER\">$USER</a>"
+  REPO_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT\">$REPO</a>"
+  BRANCH_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commits/$BRANCH\">$BRANCH</a>"
+fi
+
 # Construct message
 if [ "$OLDREV" == "$NULLREV" ]
 then
@@ -48,6 +57,9 @@ else
   elif [ -n "$CGIT" ]
   then
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$CGIT/$REPO/commit/?id=%H\">%h</a>)"`
+  elif [ -n "$GITORIOUS" ]
+  then
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commit/%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
