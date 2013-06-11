@@ -28,10 +28,22 @@ HIPCHAT_FROM="GIT"
 
 . /path/to/hipchat-post-receive
 ```
+If using gitorious make sure to add GIT_PROJECT="Name of project" to the hook:
+```sh
+#!/bin/sh
+
+HIPCHAT_SCRIPT="/path/to/hipchat/room/message"
+HIPCHAT_ROOM="HipChat room name"
+HIPCHAT_TOKEN="1234567890"
+HIPCHAT_FROM="GIT"
+GIT_PROJECT="MyScripts"
+
+. /path/to/hipchat-post-receive
+```
 
 And you're done!
 
-For GitWeb, CGit and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
+For GitWeb, CGit, Gitorious and Redmine integrations (optional) add the following configuration to the `post-receive` hook before the `hipchat-post-receive` source line.
 
 Note that CGit and GitWeb, and Redmine and JIRA, are mutually exclusive.
 
@@ -40,6 +52,7 @@ CGIT="git.example.com/cgit"
 GITWEB="gitweb.example.com"
 JIRA="jira.example.com"
 REDMINE="redmine.example.com"
+GITORIOUS="gitorious.example.com"
 ```
 
 ## Contributions
