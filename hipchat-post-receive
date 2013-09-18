@@ -34,7 +34,7 @@ fi
 # Construct gitorious links
 if [ -n "$GITORIOUS" ]
 then
-  REPO_NO_GIT=`echo -e $REPO|sed "s/.git//g"`
+  REPO_NO_GIT=`printf "$REPO" | sed "s/.git//g"`
   USER_LINK="<a href=\"https://$GITORIOUS/~$USER\">$USER</a>"
   REPO_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT\">$REPO</a>"
   BRANCH_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commits/$BRANCH\">$BRANCH</a>"
@@ -65,13 +65,13 @@ else
   fi
   if [ -n "$REDMINE" ]
   then
-    LOG=`echo -e "$LOG" | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
+    LOG=`printf "$LOG" | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
   elif [ -n "$JIRA" ]
   then
-    LOG=`echo -e "$LOG" | sed "s/\([A-Z]\{2,\}\-[0-9]\{1,\}\)/<a href=\"http:\/\/$JIRA\/browse\/\1\">\1<\/a>/g"`
+    LOG=`printf "$LOG" | sed "s/\([A-Z]\{2,\}\-[0-9]\{1,\}\)/<a href=\"http:\/\/$JIRA\/browse\/\1\">\1<\/a>/g"`
   fi
   MSG="$TITLE\n$LOG"
 fi
 
 # Send it to HipChat
-echo -e "$MSG" | $HIPCHAT_SCRIPT -c "$HIPCHAT_COLOR" -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM" > /dev/null
+printf "$MSG" | $HIPCHAT_SCRIPT -c "$HIPCHAT_COLOR" -t "$HIPCHAT_TOKEN" -r "$HIPCHAT_ROOM" -f "$HIPCHAT_FROM" > /dev/null
