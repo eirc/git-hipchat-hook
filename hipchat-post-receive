@@ -8,10 +8,12 @@ GIT_EXEC=${GIT_EXEC:-`which git`}
 REPO=${REPO:-`basename $PWD`}
 HIPCHAT_COLOR=${HIPCHAT_COLOR:-"yellow"}
 
-# User is commiter of either last or first commit
+# First or last commit might be 0, in case of branch/tag create or delete
 NULLREV="0000000000000000000000000000000000000000"
 [ "$NEWREV" = "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
-USER=`$GIT_EXEC log -1 $USER_REV --format="%aN"`
+
+# User is either tag tagger or commit author
+USER=`git cat-file -p $USER_REV | grep -E '^tagger|^author' | sed -E 's/^(tagger|author) (.*) <.*$/\2/g'`
 
 # Record whether this is a tag or normal commit/branch
 if [ `$GIT_EXEC cat-file -t $USER_REV` != 'tag' ]
