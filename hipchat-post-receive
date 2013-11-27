@@ -8,11 +8,22 @@ GIT_EXEC=${GIT_EXEC:-`which git`}
 REPO=${REPO:-`basename $PWD`}
 HIPCHAT_COLOR=${HIPCHAT_COLOR:-"yellow"}
 
-# User is commiter of either last or first commit
+# First or last commit might be 0, in case of branch/tag create or delete
 NULLREV="0000000000000000000000000000000000000000"
 [ "$NEWREV" = "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
-USER=`$GIT_EXEC log -1 $USER_REV --format="%aN"`
-BRANCH=${REFNAME#refs/heads/}
+
+# User is either tag tagger or commit author
+USER=`git cat-file -p $USER_REV | grep -E '^tagger|^author' | sed -E 's/^(tagger|author) (.*) <.*$/\2/g'`
+
+# Record whether this is a tag or normal commit/branch
+if [ `$GIT_EXEC cat-file -t $USER_REV` != 'tag' ]
+then
+  TAG_OR_BRANCH='branch'
+  BRANCH=${REFNAME#refs/heads/}
+else
+  TAG_OR_BRANCH='tag'
+  BRANCH=${REFNAME#refs/tags/}
+fi
 
 # Setup gitweb links
 if [ -n "$GITWEB" ]
@@ -43,11 +54,11 @@ fi
 # Construct message
 if [ "$OLDREV" = "$NULLREV" ]
 then
-  MSG="$USER_LINK created branch $BRANCH_LINK of $REPO_LINK"
+  MSG="$USER_LINK created $TAG_OR_BRANCH $BRANCH_LINK of $REPO_LINK"
   HIPCHAT_COLOR="green"
 elif [ "$NEWREV" = "$NULLREV" ]
 then
-  MSG="$USER_LINK deleted branch $BRANCH of $REPO_LINK"
+  MSG="$USER_LINK deleted $TAG_OR_BRANCH $BRANCH of $REPO_LINK"
   HIPCHAT_COLOR="red"
 else
   TITLE="$USER_LINK pushed to branch $BRANCH_LINK of $REPO_LINK"
