@@ -5,7 +5,7 @@ read OLDREV NEWREV REFNAME
 
 # Find out basic variables
 GIT_EXEC=${GIT_EXEC:-`which git`}
-REPO=${REPO:-`basename $PWD`}
+REPO=${REPO:-$(basename $(dirname $PWD))}
 HIPCHAT_COLOR=${HIPCHAT_COLOR:-"yellow"}
 
 # User is commiter of either last or first commit
