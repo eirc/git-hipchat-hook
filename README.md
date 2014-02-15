@@ -44,7 +44,7 @@ GIT_PROJECT="MyScripts"
 
 . /path/to/hipchat-post-receive
 ```
-For Redmine make sure to include REDMINE_PROJECT_ID and REDMINE_PROJECT_NAME.
+For Redmine make sure to include REDMINE_PROJECT and REDMINE_PROJECT_NAME.
 ```
 REDMINE_PROJECT="my-project"
 REDMINE_PROJECT_NAME="My Project"
