@@ -18,7 +18,7 @@ Clone [hipchat-cli](https://github.com/hipchat/hipchat-cli) somewhere in your GI
 git clone git://github.com/hipchat/hipchat-cli.git
 ```
 
-Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one and make sure its executable.
+Go to the `hooks` directory in a bare repository you want to setup the hooks for and add a `post-receive` script like this one and make sure it's executable.
 
 You can lookup the HipChat room id from the [rooms/list](https://www.hipchat.com/docs/api/method/rooms/list) API or use the HipChat room name (remember to urlencode it)
 
@@ -44,6 +44,12 @@ GIT_PROJECT="MyScripts"
 
 . /path/to/hipchat-post-receive
 ```
+For Redmine make sure to include REDMINE_PROJECT_ID and REDMINE_PROJECT_NAME.
+```
+REDMINE_PROJECT="my-project"
+REDMINE_PROJECT_NAME="My Project"
+```
+Also remember that you'll need to [notify Redmine to refresh the repository](http://www.redmine.org/projects/redmine/wiki/HowTo_setup_automatic_refresh_of_repositories_in_Redmine_on_commit#Git), otherwise the link to a commit won't work.
 
 And you're done!
 
@@ -52,11 +58,11 @@ For GitWeb, CGit, Gitorious and Redmine integrations (optional) add the followin
 Note that CGit and GitWeb, and Redmine and JIRA, are mutually exclusive.
 
 ```sh
-CGIT="git.example.com/cgit"
-GITWEB="gitweb.example.com"
-JIRA="jira.example.com"
-REDMINE="redmine.example.com"
-GITORIOUS="gitorious.example.com"
+CGIT="http://git.example.com/cgit"
+GITWEB="http://gitweb.example.com"
+JIRA="http://jira.example.com"
+REDMINE="http://redmine.example.com"
+GITORIOUS="http://gitorious.example.com"
 ```
 
 ## Contributions
