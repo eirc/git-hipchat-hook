@@ -63,7 +63,7 @@ else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commit/%H\">%h</a>)"`
   elif [ -n "$REDMINE" ]
   then
-    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$REDMINE/projects/$REDMINE_PROJECT/repository/revisions/%H\">%h</a>)"`
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$REDMINE/projects/$REDMINE_PROJECT/repository/$REDMINE_REPO_ID/revisions/%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
