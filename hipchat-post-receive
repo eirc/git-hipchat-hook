@@ -13,31 +13,32 @@ NULLREV="0000000000000000000000000000000000000000"
 [ "$NEWREV" = "$NULLREV" ] && USER_REV="$OLDREV" || USER_REV="$NEWREV"
 USER=`$GIT_EXEC log -1 $USER_REV --format="%aN"`
 BRANCH=${REFNAME#refs/heads/}
+REPO_NO_GIT=`echo -e $REPO|sed "s/.git//g"`
 
-# Setup gitweb links
 if [ -n "$GITWEB" ]
 then
-  USER_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=search;s=$USER;st=author\">$USER</a>"
-  BRANCH_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=shortlog;h=$REFNAME\">$BRANCH</a>"
-  REPO_LINK="<a href=\"http://$GITWEB/?p=$REPO;a=summary\">$REPO</a>"
+  USER_LINK="<a href=\"$GITWEB/?p=$REPO;a=search;s=$USER;st=author\">$USER</a>"
+  BRANCH_LINK="<a href=\"$GITWEB/?p=$REPO;a=shortlog;h=$REFNAME\">$BRANCH</a>"
+  REPO_LINK="<a href=\"$GITWEB/?p=$REPO;a=summary\">$REPO</a>"
 elif [ -n "$CGIT" ]
 then
   USER_LINK=$USER
-  BRANCH_LINK="<a href=\"http://$CGIT/$REPO/log/?h=$REFNAME\">$BRANCH</a>"
-  REPO_LINK="<a href=\"http://$CGIT/$REPO/\">$REPO</a>"
+  BRANCH_LINK="<a href=\"$CGIT/$REPO/log/?h=$REFNAME\">$BRANCH</a>"
+  REPO_LINK="<a href=\"$CGIT/$REPO/\">$REPO</a>"
+elif [ -n "$GITORIOUS" ]
+then
+  USER_LINK="<a href=\"$GITORIOUS/~$USER\">$USER</a>"
+  REPO_LINK="<a href=\"$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT\">$REPO</a>"
+  BRANCH_LINK="<a href=\"$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commits/$BRANCH\">$BRANCH</a>"
+elif [ -n "$REDMINE" ]
+then
+  USER_LINK=$USER
+  BRANCH_LINK="<a href=\"$REDMINE/projects/$REDMINE_PROJECT/repository?rev=$BRANCH\">$BRANCH</a>"
+  REPO_LINK="<a href=\"$REDMINE/projects/$REDMINE_PROJECT\">$REDMINE_PROJECT_NAME</a>"
 else
   USER_LINK=$USER
   BRANCH_LINK=$BRANCH
   REPO_LINK=$REPO
-fi
-
-# Construct gitorious links
-if [ -n "$GITORIOUS" ]
-then
-  REPO_NO_GIT=`echo -e $REPO|sed "s/.git//g"`
-  USER_LINK="<a href=\"https://$GITORIOUS/~$USER\">$USER</a>"
-  REPO_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT\">$REPO</a>"
-  BRANCH_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commits/$BRANCH\">$BRANCH</a>"
 fi
 
 # Construct message
@@ -53,19 +54,24 @@ else
   TITLE="$USER_LINK pushed to branch $BRANCH_LINK of $REPO_LINK"
   if [ -n "$GITWEB" ]
   then
-    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$GITWEB/?p=$REPO;a=commitdiff;h=%H\">%h</a>)"`
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$GITWEB/?p=$REPO;a=commitdiff;h=%H\">%h</a>)"`
   elif [ -n "$CGIT" ]
   then
-    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$CGIT/$REPO/commit/?id=%H\">%h</a>)"`
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$CGIT/$REPO/commit/?id=%H\">%h</a>)"`
   elif [ -n "$GITORIOUS" ]
   then
-    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commit/%H\">%h</a>)"`
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commit/%H\">%h</a>)"`
+  elif [ -n "$REDMINE" ]
+  then
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"$REDMINE/projects/$REDMINE_PROJECT/repository/$REDMINE_REPO_ID/revisions/%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
+
+  # Link to issues in commit logs
   if [ -n "$REDMINE" ]
   then
-    LOG=`echo -e "$LOG" | sed "s/#\([0-9]*\)/#<a href=\"http:\/\/$REDMINE\/issues\/\1\">\1<\/a>/g"`
+    LOG=`echo -e "$LOG" | sed "s|#\([0-9]*\)|<a href=\"$REDMINE\/issues\/\1\">#\1<\/a>|g"`
   elif [ -n "$JIRA" ]
   then
     LOG=`echo -e "$LOG" | sed "s/\([A-Z]\{2,\}\-[0-9]\{1,\}\)/<a href=\"http:\/\/$JIRA\/browse\/\1\">\1<\/a>/g"`
