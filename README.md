@@ -57,6 +57,7 @@ GITWEB="gitweb.example.com"
 JIRA="jira.example.com"
 REDMINE="redmine.example.com"
 GITORIOUS="gitorious.example.com"
+PHABRICATOR="phabricator.example.com"
 ```
 
 ## Contributions

@@ -40,6 +40,14 @@ then
   BRANCH_LINK="<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commits/$BRANCH\">$BRANCH</a>"
 fi
 
+#construct phabricator links
+if [ -n "$PHABRICATOR" ]
+then
+  USER_LINK="<a href=\"http://$PHABRICATOR/audit/?authors=$USER\">$USER</a>"
+  REPO_LINK="<a href=\"http://$PHABRICATOR/diffusion/$REPO/\">$REPO</a>"
+  BRANCH_LINK="<a href=\"http://$PHABRICATOR/diffusion/$REPO/browse/$BRANCH/\">$BRANCH</a>"
+fi
+
 # Construct message
 if [ "$OLDREV" = "$NULLREV" ]
 then
@@ -60,6 +68,9 @@ else
   elif [ -n "$GITORIOUS" ]
   then
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"https://$GITORIOUS/$GIT_PROJECT/$REPO_NO_GIT/commit/%H\">%h</a>)"`
+  elif [ -n "$PHABRICATOR" ]
+  then
+    LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (<a href=\"http://$PHABRICATOR/r$REPO%H\">%h</a>)"`
   else
     LOG=`$GIT_EXEC log $OLDREV..$NEWREV --format="- %s (%h)"`
   fi
