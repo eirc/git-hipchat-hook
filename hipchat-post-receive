@@ -70,7 +70,7 @@ else
   then
     LOG=`echo -e "$LOG" | sed "s/\([A-Z]\{2,\}\-[0-9]\{1,\}\)/<a href=\"http:\/\/$JIRA\/browse\/\1\">\1<\/a>/g"`
   fi
-  MSG="$TITLE\n$LOG"
+  MSG="$TITLE</br>$LOG"
 fi
 
 # Send it to HipChat
