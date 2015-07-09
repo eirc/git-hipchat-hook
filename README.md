@@ -22,10 +22,12 @@ Go to the `hooks` directory in a bare repository you want to setup the hooks for
 
 You can lookup the HipChat room id from the [rooms/list](https://www.hipchat.com/docs/api/method/rooms/list) API or use the HipChat room name (remember to urlencode it)
 
+Keep in mind that a v1 API token is different from a v2 token.
+
 ```sh
 #!/bin/sh
 
-HIPCHAT_SCRIPT="/path/to/hipchat_room_message"
+HIPCHAT_SCRIPT="/path/to/hipchat_room_message -v2"
 HIPCHAT_ROOM="HipChat room name or room_id"
 HIPCHAT_TOKEN="1234567890"
 HIPCHAT_FROM="GIT"
